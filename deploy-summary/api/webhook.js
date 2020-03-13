@@ -13,10 +13,10 @@ const { MICROLINK_API_KEY } = process.env
 const takeScreenshot = async (url, opts = {}) => {
   const { data } = await mql(url, {
     apiKey: MICROLINK_API_KEY,
-    disableAnimations: true,
-    force: true,
     screenshot: true,
     meta: false,
+    waitUntil: 'load',
+    ttl: 'max',
     ...opts
   })
 
