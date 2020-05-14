@@ -8,5 +8,8 @@ module.exports = withUiHook(async arg => {
   if (action === "view") {
     action = "list-drains";
   }
+  if (action === "region") {
+    action = "new-drain";
+  }
   return route(arg, action);
 });

@@ -7,11 +7,11 @@ module.exports = async arg => {
   const { clientState, configurationId, teamId, token } = payload;
   const { name, projectId, logsToken, region } = clientState;
 
-  const urlEu = 'https://logsene-heroku-receiver.eu.sematext.com';
-  const urlUs = 'https://logsene-heroku-receiver.sematext.com';
-  let url = `${urlUs}/${token}`;
+  const urlEu = 'https://logsene-k8s-audit-receiver.eu.sematext.com';
+  const urlUs = 'https://logsene-k8s-audit-receiver.sematext.com';
+  let url = `${urlUs}/${logsToken}`;
   if (region === 'eu') {
-    url = `${urlEu}/${token}`;
+    url = `${urlEu}/${logsToken}`;
   }
 
   console.log("getting metadata");

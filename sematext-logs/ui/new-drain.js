@@ -6,7 +6,6 @@ module.exports = async (arg, { state }) => {
   const { clientState, teamId, token } = payload;
   const { name = "", projectId = "", logsToken = "", region = "us" } = clientState;
   const { errorMessage } = state;
-
   const projects = await getProjects({ token, teamId });
 
   return htm`
@@ -17,7 +16,10 @@ module.exports = async (arg, { state }) => {
         <FsContent>
           <H2>Project Filtering</H2>
           <P>Subscribe to logs from a single project. If left empty will subscribe to all projects. (optional)</P>
-          <ProjectSwitcher message="Select a project" />
+          <Select name="projectId" value=${projectId}>
+            <Option value="" caption="Select a project" />
+            ${projects.map(p => htm`<Option value=${p.id} caption=${p.name} />`)}
+          </Select>
         </FsContent>
       </Fieldset>
       <Fieldset>
@@ -34,7 +36,7 @@ module.exports = async (arg, { state }) => {
         <FsContent>
           <H2>Select Region</H2>
           <P>The region you chose when creating your account.</P>
-          <Select name="region" value=${region}>
+          <Select name="region" value=${region} action="region">
             <Option value="us" caption="US" />
             <Option value="eu" caption="EU" />
           </Select>
@@ -43,9 +45,16 @@ module.exports = async (arg, { state }) => {
 
       <Fieldset>
         <FsContent>
+          <H2>Create a Logs App</H2>
+          <P>Go to <Link href=${`https://apps.${region === "us" ? "" : "eu."}sematext.com/ui/logs`} target="_blank">Sematext Logs</Link> and click on the <B>"+ New Logs App"</B> button to create an App. Once the App is created, follow the <B>"Integration Instructions"</B> to active log management.</P>
+        </FsContent>
+      </Fieldset>
+
+      <Fieldset>
+        <FsContent>
           <H2>Logs App Name</H2>
           <P>Add a name for this Log Drain so you can keep track of different Logs Apps.</P>
-          <Input name="name" value=${name} width="100%" />
+          <Input maxWidth="500px" name="name" value=${name} width="100%" />
         </FsContent>
       </Fieldset>
 
@@ -53,7 +62,7 @@ module.exports = async (arg, { state }) => {
         <FsContent>
           <H2>Logs App Token</H2>
           <P>Add your Logs App Token. You can find the token in the integrations section of the Sematext Logs UI.</P>
-          <Input name="logsToken" value=${logsToken} width="100%" />
+          <Input maxWidth="500px" name="logsToken" value=${logsToken} width="100%" />
         </FsContent>
       </Fieldset>
 
