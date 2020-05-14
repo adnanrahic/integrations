@@ -5,7 +5,14 @@ const route = require("../lib/route");
 module.exports = async arg => {
   const { payload } = arg;
   const { clientState, configurationId, teamId, token } = payload;
-  const { name, projectId, type, url } = clientState;
+  const { name, projectId, logsToken, region } = clientState;
+
+  const urlEu = 'https://logsene-heroku-receiver.eu.sematext.com';
+  const urlUs = 'https://logsene-heroku-receiver.sematext.com';
+  let url = `${urlUs}/${token}`;
+  if (region === 'eu') {
+    url = `${urlEu}/${token}`;
+  }
 
   console.log("getting metadata");
   const metadata = await getMetadata({ configurationId, token, teamId });
@@ -20,7 +27,7 @@ module.exports = async arg => {
       {
         name,
         projectId: projectId || null,
-        type,
+        type: "json",
         url
       }
     );
