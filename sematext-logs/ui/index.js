@@ -4,6 +4,7 @@ const { stringify } = require("querystring");
 const getLogDrains = require("../lib/get-log-drains");
 const getIntegration = require("../lib/get-integration");
 const getProject = require("../lib/get-project");
+const route = require("../lib/route");
 
 module.exports = async (arg, { state }) => {
   const { payload } = arg;
@@ -43,12 +44,10 @@ module.exports = async (arg, { state }) => {
     )
   );
 
+  const newDrain = await route(arg, "new-drain");
+
   return htm`
     <Page>
-      <H1>Log Drains</H1>
-      <Box display="flex" justifyContent="flex-end">
-        <Button action="new-drain">Create Drain</Button>
-      </Box>
       ${errorMessage ? htm`<Notice type="error">${errorMessage}</Notice>` : ""}
       ${
         drains.length
@@ -57,6 +56,10 @@ module.exports = async (arg, { state }) => {
                 ? projectMap.get(drain.projectId)
                 : null;
               return htm`
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <H1>Log Drains</H1>
+              <Button action="new-drain" background="#FF0000">Create Drain</Button>
+            </Box>
             <Fieldset>
               <FsContent>
                 <Box display="flex" justifyContent="space-between">
@@ -101,11 +104,7 @@ module.exports = async (arg, { state }) => {
             </Fieldset>
           `;
             })
-          : htm`
-          <Box alignItems="center" display="flex" height="300px" justifyContent="center">
-            <P>No drain found: <Link action="list-drains">Create a new log drain</Link></P>
-          </Box>
-        `
+          : newDrain
       }
       <AutoRefresh timeout="60000" />
     </Page>

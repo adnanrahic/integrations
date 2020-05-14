@@ -1,4 +1,5 @@
 const { htm } = require("@zeit/integration-utils");
+const getLogDrains = require("../lib/get-log-drains");
 const getProjects = require("../lib/get-projects");
 
 module.exports = async (arg, { state }) => {
@@ -6,11 +7,16 @@ module.exports = async (arg, { state }) => {
   const { clientState, teamId, token } = payload;
   const { name = "", projectId = "", logsToken = "", region = "us" } = clientState;
   const { errorMessage } = state;
+  const drains = await getLogDrains({ teamId, token });
   const projects = await getProjects({ token, teamId });
 
   return htm`
     <Page>
-      <P><Link action="list-drains">Back to list</Link></P>
+      ${
+        drains.length === 0
+          ? ""
+          : htm`<P><Link action="list-drains">← Back to Log Drains</Link></P>`
+      }
       
       <Fieldset>
         <FsContent>
@@ -63,7 +69,7 @@ module.exports = async (arg, { state }) => {
         <FsContent>
           <H2>Logs App Token</H2>
           <P>
-            Add your Logs App Token. You can find the token in the integrations section of the Sematext Logs UI.
+            Add your Logs App Token. You can find the token in the integrations section<BR />of the Sematext Logs UI.
           </P>
           <Input maxWidth="500px" name="logsToken" value=${logsToken} width="100%" />
         </FsContent>
