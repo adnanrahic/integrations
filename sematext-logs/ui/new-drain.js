@@ -46,7 +46,8 @@ module.exports = async (arg, { state }) => {
       <Fieldset>
         <FsContent>
           <H2>Create a Logs App</H2>
-          <P>Go to <Link href=${`https://apps.${region === "us" ? "" : "eu."}sematext.com/ui/logs`} target="_blank">Sematext Logs</Link> and click on the <B>"+ New Logs App"</B> button to create an App. Once the App is created, follow the <B>"Integration Instructions"</B> to active log management.</P>
+          <P>Go to <Link href=${`https://apps.${region === "us" ? "" : "eu."}sematext.com/ui/logs`} target="_blank">Sematext Logs</Link> and click on the <B>"+ New Logs App"</B> button to create an App.</P>
+          <P>Once the App is created, follow the <B>"Integration Instructions"</B> to active log management.</P>
         </FsContent>
       </Fieldset>
 
@@ -61,7 +62,9 @@ module.exports = async (arg, { state }) => {
       <Fieldset>
         <FsContent>
           <H2>Logs App Token</H2>
-          <P>Add your Logs App Token. You can find the token in the integrations section of the Sematext Logs UI.</P>
+          <P>
+            Add your Logs App Token. You can find the token in the integrations section of the Sematext Logs UI.
+          </P>
           <Input maxWidth="500px" name="logsToken" value=${logsToken} width="100%" />
         </FsContent>
       </Fieldset>
