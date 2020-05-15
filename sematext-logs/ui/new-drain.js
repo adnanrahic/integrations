@@ -68,8 +68,8 @@ module.exports = async (arg, { state }) => {
 
       <Fieldset>
         <FsContent>
-          <H2>Logs App Name (Optional)</H2>
-          <P>Add a name for this Log Drain so you can keep track of different Logs Apps.<BR />The name will default to <B>"Sematext Log Drain"</B> if left empty.</P>
+          <H2>Logs App Name</H2>
+          <P>Add a name for this Log Drain so you can keep track of different Logs Apps.</P>
           <Input maxWidth="500px" name="name" value=${name} width="100%" />
         </FsContent>
       </Fieldset>
