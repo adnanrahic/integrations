@@ -1,20 +1,25 @@
-const { htm } = require("@zeit/integration-utils");
-const getLogDrains = require("../lib/get-log-drains");
-const getProjects = require("../lib/get-projects");
+const { htm } = require('@zeit/integration-utils')
+const getLogDrains = require('../lib/get-log-drains')
+const getProjects = require('../lib/get-projects')
 
 module.exports = async (arg, { state }) => {
-  const { payload } = arg;
-  const { clientState, teamId, token } = payload;
-  const { name = "", projectId = "", logsToken = "", region = "us" } = clientState;
-  const { errorMessage } = state;
-  const drains = await getLogDrains({ teamId, token });
-  const projects = await getProjects({ token, teamId });
+  const { payload } = arg
+  const { clientState, teamId, token } = payload
+  const {
+    name = 'Sematext Log Drain',
+    projectId = '',
+    logsToken = '',
+    region = 'us'
+  } = clientState
+  const { errorMessage } = state
+  const drains = await getLogDrains({ teamId, token })
+  const projects = await getProjects({ token, teamId })
 
   return htm`
     <Page>
       ${
         drains.length === 0
-          ? ""
+          ? ''
           : htm`<P><Link action="list-drains">← Back to Log Drains</Link></P>`
       }
       
@@ -24,7 +29,9 @@ module.exports = async (arg, { state }) => {
           <P>Subscribe to logs from a single project. If left empty will subscribe to all projects. (optional)</P>
           <Select name="projectId" value=${projectId}>
             <Option value="" caption="Select a project" />
-            ${projects.map(p => htm`<Option value=${p.id} caption=${p.name} />`)}
+            ${projects.map(
+              p => htm`<Option value=${p.id} caption=${p.name} />`
+            )}
           </Select>
         </FsContent>
       </Fieldset>
@@ -52,15 +59,17 @@ module.exports = async (arg, { state }) => {
       <Fieldset>
         <FsContent>
           <H2>Create a Logs App</H2>
-          <P>Go to <Link href=${`https://apps.${region === "us" ? "" : "eu."}sematext.com/ui/logs`} target="_blank">Sematext Logs</Link> and click on the <B>"+ New Logs App"</B> button to create an App.</P>
+          <P>Go to <Link href=${`https://apps.${
+            region === 'us' ? '' : 'eu.'
+          }sematext.com/ui/logs`} target="_blank">Sematext Logs</Link> and click on the <B>"+ New Logs App"</B> button to create an App.</P>
           <P>Once the App is created, follow the <B>"Integration Instructions"</B> to active log management.</P>
         </FsContent>
       </Fieldset>
 
       <Fieldset>
         <FsContent>
-          <H2>Logs App Name</H2>
-          <P>Add a name for this Log Drain so you can keep track of different Logs Apps.</P>
+          <H2>Logs App Name (Optional)</H2>
+          <P>Add a name for this Log Drain so you can keep track of different Logs Apps.<BR />The name will default to <B>"Sematext Log Drain"</B> if left empty.</P>
           <Input maxWidth="500px" name="name" value=${name} width="100%" />
         </FsContent>
       </Fieldset>
@@ -75,10 +84,10 @@ module.exports = async (arg, { state }) => {
         </FsContent>
       </Fieldset>
 
-      ${errorMessage ? htm`<Notice type="error">${errorMessage}</Notice>` : ""}
+      ${errorMessage ? htm`<Notice type="error">${errorMessage}</Notice>` : ''}
       <Box display="flex" justifyContent="flex-end">
         <Button action="create-drain">Create</Button>
       </Box>
     </Page>
-  `;
-};
+  `
+}
