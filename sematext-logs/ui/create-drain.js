@@ -9,7 +9,8 @@ module.exports = async arg => {
 
   if (logsToken.length !== 36) {
     return route(arg, 'new-drain', {
-      errorMessage: 'Invalid Logs Token. Logs Token format must be "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".'
+      errorMessage:
+        'Invalid Logs Token. Logs Token format must be "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".'
     })
   }
 

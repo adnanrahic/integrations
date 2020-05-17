@@ -67,7 +67,8 @@ module.exports = async (arg, { state }) => {
           ? drains.map(drain => {
               const { hostname, pathname } = parse(drain.url)
               const logsToken = pathname.split('/').pop()
-              const logsTokenToDisplay = logsToken.slice(0, 9) + '*'.repeat(14) + logsToken.slice(-13)
+              const logsTokenToDisplay =
+                logsToken.slice(0, 9) + '*'.repeat(14) + logsToken.slice(-13)
               const region = detectRegion(hostname)
               const project = drain.projectId
                 ? projectMap.get(drain.projectId)
