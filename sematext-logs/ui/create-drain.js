@@ -14,8 +14,8 @@ module.exports = async arg => {
     })
   }
 
-  const urlEu = 'https://logsene-k8s-audit-receiver.eu.sematext.com'
-  const urlUs = 'https://logsene-k8s-audit-receiver.sematext.com'
+  const urlUs = 'https://logs-vercel-receiver.sematext.com'
+  const urlEu = 'https://logs-vercel-receiver.eu.sematext.com'
   let url = `${urlUs}/${logsToken}`
   if (region === 'eu') {
     url = `${urlEu}/${logsToken}`
