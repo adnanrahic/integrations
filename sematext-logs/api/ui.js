@@ -3,7 +3,7 @@ const route = require('../lib/route')
 
 module.exports = withUiHook(async arg => {
   let {
-    payload: { action }
+    payload: { action, query: { PATH } }
   } = arg
   if (action === 'view') {
     action = 'list-drains'
@@ -11,5 +11,10 @@ module.exports = withUiHook(async arg => {
   if (action === 'region') {
     action = 'new-drain'
   }
+
+  if (PATH === 'new-drain') {
+    action = 'new-drain'
+  }
+
   return route(arg, action)
 })

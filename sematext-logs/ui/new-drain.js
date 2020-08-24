@@ -4,12 +4,13 @@ const getProjects = require('../lib/get-projects')
 
 module.exports = async (arg, { state }) => {
   const { payload } = arg
-  const { clientState, teamId, token } = payload
+  const { clientState, teamId, token,
+    query: { LOGS_TOKEN, REGION, NAME } } = payload
   const {
-    name = 'Sematext Log Drain',
+    name = NAME || 'Sematext Log Drain',
     projectId = '',
-    logsToken = '',
-    region = 'us'
+    logsToken = LOGS_TOKEN || '',
+    region = (REGION && REGION.toLowerCase()) || 'us'
   } = clientState
   const { errorMessage } = state
   const drains = await getLogDrains({ teamId, token })
@@ -25,6 +26,14 @@ module.exports = async (arg, { state }) => {
       
       <Fieldset>
         <FsContent>
+          <H2>Log Drain Name</H2>
+          <P>Add a name for this Log Drain so you can keep track of different Logs Apps.</P>
+          <Input maxWidth="500px" name="name" value=${name} width="100%" />
+        </FsContent>
+      </Fieldset>
+
+      <Fieldset>
+        <FsContent>
           <H2>Project Filtering</H2>
           <P>Subscribe to logs from a single project. If left empty will subscribe to all projects. (optional)</P>
           <Select name="projectId" value=${projectId}>
@@ -35,6 +44,7 @@ module.exports = async (arg, { state }) => {
           </Select>
         </FsContent>
       </Fieldset>
+
       <Fieldset>
         <FsContent>
           <H2>Create Your Sematext Account</H2>
@@ -58,19 +68,11 @@ module.exports = async (arg, { state }) => {
 
       <Fieldset>
         <FsContent>
-          <H2>Create a Logs App</H2>
+          <H2>Create a Vercel Logs App</H2>
           <P>Go to <Link href=${`https://apps.${
             region === 'us' ? '' : 'eu.'
-          }sematext.com/ui/logs`} target="_blank">Sematext Logs</Link> and click on the <B>"+ New Logs App"</B> button to create an App.</P>
-          <P>Once the App is created, follow the <B>"Integration Instructions"</B> to active log management.</P>
-        </FsContent>
-      </Fieldset>
-
-      <Fieldset>
-        <FsContent>
-          <H2>Logs App Name</H2>
-          <P>Add a name for this Log Drain so you can keep track of different Logs Apps.</P>
-          <Input maxWidth="500px" name="name" value=${name} width="100%" />
+          }sematext.com/ui/logs`} target="_blank">Sematext Logs</Link> and click on the <B>"+ New Logs App"</B> button to create a Vercel Logs App.</P>
+          <P>Once the App is created, follow the <B>"Integration Instructions"</B> to activate log collection and management.</P>
         </FsContent>
       </Fieldset>
 
