@@ -8,6 +8,9 @@ module.exports = withUiHook(async arg => {
   if (action === 'view') {
     action = 'index'
   }
+  if (action === 'region') {
+    action = 'index'
+  }
 
   return route(arg, action)
 })

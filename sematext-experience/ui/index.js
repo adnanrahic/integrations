@@ -4,9 +4,6 @@ module.exports = async (arg, { state }) => {
   const { payload } = arg
   const { clientState, teamId, token } = payload
   const {
-    name = 'Sematext Log Drain',
-    projectId = '',
-    logsToken = '',
     region = 'us'
   } = clientState
   const { errorMessage } = state

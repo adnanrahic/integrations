@@ -11,8 +11,8 @@
     }
   },
   "env": {
-    "CLIENT_ID": "@sematext-client-id",
-    "CLIENT_SECRET": "@sematext-client-secret",
-    "HOST": "@sematext-host"
+    "CLIENT_ID": "@sematext-experience-client-id",
+    "CLIENT_SECRET": "@sematext-experience-client-secret",
+    "HOST": "@sematext-experience-host"
   }
 }
