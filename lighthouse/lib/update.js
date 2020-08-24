@@ -3,25 +3,23 @@ const fetchApi = require("./fetch-api");
 const mongo = require("./mongo");
 const sleep = require("./sleep");
 
-const BATCH_SIZE = 20;
-const LIMIT = 1000;
+const BATCH_SIZE = 10;
+const LIMIT = 500;
 
-const rateLimit = RateLimit(10);
+const rateLimit = RateLimit(5);
 
 async function fetchUpdateOwner(buf) {
   await rateLimit();
 
-  console.log(`requesting /update/owner.js: ${buf.length}`);
-
   // don't wait for response
   fetchApi("/update/owner.js", buf).catch(console.error);
-  await sleep(1000);
+  await sleep(500);
 }
 
 async function fetchNext(name, from) {
   await rateLimit();
   fetchApi(`/update/${name}.js`, { from }).catch(console.error);
-  await sleep(1000);
+  await sleep(500);
 }
 
 module.exports = async function update(name, { from } = {}) {
@@ -34,7 +32,7 @@ module.exports = async function update(name, { from } = {}) {
     query.id = { $gte: from };
   }
 
-  console.log(`getting ${name} docs`);
+  console.log(`getting ${name} docs${from ? ` from ${from}` : ''}`);
   const cursor = await db.collection(name).find(query, {
     limit: LIMIT + 1,
     projection: { accessToken: 1, id: 1 },
